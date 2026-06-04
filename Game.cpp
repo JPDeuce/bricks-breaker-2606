@@ -26,7 +26,7 @@ void Game::Reset()
 
 		brick.width = 10;
 		brick.height = 2;
-		brick.x_position = 0;
+		brick.x_position = i * 18;
 		brick.y_position = 5;
 		brick.doubleThick = true;
 		brick.color = ConsoleColor::DarkGreen;
@@ -87,11 +87,13 @@ void Game::Render() const
 void Game::CheckCollision()
 {
 	// TODO #4 - Update collision to check all bricks
-	if (brick.Contains(ball.x_position + ball.x_velocity, ball.y_position + ball.y_velocity))
-	{
-		brick.color = ConsoleColor(brick.color - 1);
-		ball.y_velocity *= -1;
-
+	for(auto& brick : bricks)
+	{ 
+		if (brick.Contains(ball.x_position + ball.x_velocity, ball.y_position + ball.y_velocity))
+		{
+			brick.color = ConsoleColor(brick.color - 1);
+			ball.y_velocity *= -1;
+		}
 		// TODO #5 - If the ball hits the same brick 3 times (color == black), remove it from the vector
 
 	}
