@@ -18,6 +18,7 @@ void Game::Reset()
 	ball.visage = 'O';
 	ball.color = ConsoleColor::Cyan;
 	ResetBall();
+	gameWon = false;
 
 	// TODO #2 - Add this brick and 4 more bricks to the vector
 	for (int i = 0; i < 5; i++)
@@ -82,6 +83,12 @@ void Game::Render() const
 	}
 
 	Console::Lock(false);
+
+	if (gameWon)
+	{
+		Console::SetCursorPosition(WINDOW_WIDTH / 2 - 16, WINDOW_HEIGHT / 2);
+		std::cout << "You win! Press 'R' to play again.";
+	}
 }
 
 void Game::CheckCollision()
@@ -105,7 +112,11 @@ void Game::CheckCollision()
 	}
 
 	// TODO #6 - If no bricks remain, pause ball and display (render) victory text with R to reset
-
+	if (bricks.empty())
+	{
+		gameWon = true;
+		ball.moving = false;
+	}
 
 	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_velocity + ball.y_position))
 	{
